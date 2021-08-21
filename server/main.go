@@ -2,12 +2,14 @@ package main
 
 import (
 	"fmt"
+
+	"github.com/aws/aws-lambda-go/lambda"
 )
 
 type InfoEvent struct {
-	Firstname string
-	Lastname  string
-	Age       int
+	Firstname string `json:"firstname"`
+	Lastname  string `json:"lastname"`
+	Age       int    `json:"age"`
 }
 
 type Response struct {
@@ -15,11 +17,9 @@ type Response struct {
 }
 
 func HandleInfoEvent(event InfoEvent) (Response, error) {
-	return Response{Profile: fmt.Sprintf("Their name is %s %s , they are %d ", event.Firstname, event.Lastname, event.Age)}, nil
+	return Response{Profile: fmt.Sprintf("Their name is %s %s, they are %d ", event.Firstname, event.Lastname, event.Age)}, nil
 }
 
 func main() {
-	request := InfoEvent{Firstname: "Oluwatomisin", Lastname: "Bamimore", Age: 16}
-	fmt.Println(HandleInfoEvent(request))
-	// lambda.Start(HandleInfoEvent)
+	lambda.Start(HandleInfoEvent)
 }
